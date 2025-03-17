@@ -5,6 +5,7 @@ from base_model.lenet5 import create_lenet5bn
 from base_model.wrn import create_wrnc16plain
 from base_model.resnet import create_ResNet18, create_ResNet34
 from base_model.cfqk import create_CFQKBNC
+from base_model.cfqk import create_eca_CFQKBNC
 
 IMAGENET_STANDARD_MODEL_MAP = {
     'sres50': create_SResNet50,
@@ -18,7 +19,8 @@ CIFAR10_MODEL_MAP = {
     'src110':create_SRC110,
     'vc':create_vc,
     'wrnc16plain':create_wrnc16plain,
-    'cfqkbnc':create_CFQKBNC
+    'cfqkbnc':create_CFQKBNC,
+    'eca_cfqkbnc':create_eca_CFQKBNC
 }
 
 MNIST_MODEL_MAP = {
