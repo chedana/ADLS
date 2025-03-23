@@ -36,6 +36,7 @@ class ImageNetBlankGenerator(object):
         return self.return_dict
 
 def create_dataset(dataset_name, subset, global_batch_size, distributed):
+    import pdb;pdb.set_trace()
     assert dataset_name in ['cifar10','imagenet_blank',
                             'imagenet_standard', 'mnist']
     assert subset in ['train', 'val']
