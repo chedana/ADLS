@@ -135,6 +135,7 @@ if __name__ == '__main__':
         builder = ConvBuilder(base_config=config)
 
     target_weights = os.path.join(log_dir, 'finish.hdf5')
+
     if not os.path.exists(target_weights):
         train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
                show_variables=True, auto_continue=auto_continue)

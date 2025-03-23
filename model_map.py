@@ -8,10 +8,9 @@ from base_model.cfqk import create_CFQKBNC
 from base_model.cfqk import create_eca_CFQKBNC
 
 IMAGENET_STANDARD_MODEL_MAP = {
-    'sres50': create_SResNet50,
     'smi1': create_MobileV1Imagenet,
-    'sres18': create_ResNet18,
-    'sres34': create_ResNet34
+    # 'sres18': create_ResNet18,
+    # 'sres34': create_ResNet34
 }
 
 CIFAR10_MODEL_MAP = {
@@ -23,6 +22,12 @@ CIFAR10_MODEL_MAP = {
     'eca_cfqkbnc':create_eca_CFQKBNC
 }
 
+
+CIFAR10_res_MODEL_MAP = {
+    'sres18': create_ResNet18,
+    'sres34': create_ResNet34,
+    'sres50': create_SResNet50,
+}
 MNIST_MODEL_MAP = {
     'lenet5bn': create_lenet5bn,
 }
@@ -30,6 +35,7 @@ MNIST_MODEL_MAP = {
 DATASET_TO_MODEL_MAP = {
     'imagenet_standard': IMAGENET_STANDARD_MODEL_MAP,
     'cifar10': CIFAR10_MODEL_MAP,
+    'cifar10_res': CIFAR10_res_MODEL_MAP,
     'mnist': MNIST_MODEL_MAP
 }
 

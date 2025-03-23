@@ -85,6 +85,24 @@ def create_dataset(dataset_name, subset, global_batch_size, distributed):
                                     transforms.ToTensor(),
                                     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
                                 batch_size=global_batch_size, shuffle=False)
+    elif dataset_name == 'cifar10_res':
+        assert not distributed
+        if subset == 'train':
+            return InfiniteDataLoader(datasets.CIFAR10(CIFAR10_PATH, train=True, download=True,
+                               transform=transforms.Compose([
+                                   transforms.Pad(padding=(4, 4, 4, 4)),
+                                   transforms.Resize(224),  # or T.Resize((224, 224))
+                                   transforms.RandomHorizontalFlip(),
+                                   transforms.ToTensor(),
+                                   transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
+                                batch_size=global_batch_size, shuffle=True)
+        else:
+            return InfiniteDataLoader(datasets.CIFAR10(CIFAR10_PATH, train=False,
+                                transform=transforms.Compose([
+                                    transforms.Resize(224),  # or T.Resize((224, 224))
+                                    transforms.ToTensor(),
+                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
+                                batch_size=global_batch_size, shuffle=False)
 
     else:
         raise ValueError('??')
