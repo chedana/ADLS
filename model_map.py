@@ -4,8 +4,7 @@ from base_model.vgg import *
 from base_model.lenet5 import create_lenet5bn
 from base_model.wrn import create_wrnc16plain
 from base_model.resnet import create_ResNet18, create_ResNet34
-from base_model.cfqk import create_CFQKBNC
-from base_model.cfqk import create_eca_CFQKBNC
+from base_model.cfqk import *
 
 IMAGENET_STANDARD_MODEL_MAP = {
     'smi1': create_MobileV1Imagenet,
@@ -19,7 +18,8 @@ CIFAR10_MODEL_MAP = {
     'vc':create_vc,
     'wrnc16plain':create_wrnc16plain,
     'cfqkbnc':create_CFQKBNC,
-    'eca_cfqkbnc':create_eca_CFQKBNC
+    'eca_cfqkbnc':create_eca_CFQKBNC,
+    'cfqkbnc_deep':create_CFQKBNC_deep,
 }
 
 

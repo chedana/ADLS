@@ -18,6 +18,7 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--arch', default='sres18')
     parser.add_argument('-b', '--block_type', default='acb')
     parser.add_argument('-c', '--conti_or_fs', default='fs')        # continue or train_from_scratch
+    parser.add_argument('-e', '--epochs',default= 150)
     parser.add_argument(
         '--local_rank', default=0, type=int,
         help='process rank on node')
@@ -27,6 +28,7 @@ if __name__ == '__main__':
     network_type = start_arg.arch
     block_type = start_arg.block_type
     conti_or_fs = start_arg.conti_or_fs
+    epochs = int(start_arg.epochs)
     assert conti_or_fs in ['continue', 'fs']
     assert block_type in ['acb', 'base']
     auto_continue = conti_or_fs == 'continue'
@@ -62,11 +64,23 @@ if __name__ == '__main__':
         weight_decay_strength = 1e-4
         #   ------------------------------------
         #   86.2  --->  86.8+
+        #50 epoch 84.69  --->  85.75+
         batch_size = 128
-        lrs = LRSchedule(base_lr=0.1, max_epochs=150, lr_epoch_boundaries=None, lr_decay_factor=None,
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
                          linear_final_lr=None, cosine_minimum=0)
         warmup_epochs = 0
         gamma_init = 0.333
+    
+    elif network_type == 'cfqkbnc_deep':
+        weight_decay_strength = 1e-4
+        #   ------------------------------------
+        #50 epoch 87.97  --->  88.51+
+        batch_size = 128
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
+                         linear_final_lr=None, cosine_minimum=0)
+        warmup_epochs = 0
+        gamma_init = 0.333
+        #   ------------------------------------
         #   ------------------------------------
     elif network_type == 'eca_cfqkbnc':
         weight_decay_strength = 1e-4
