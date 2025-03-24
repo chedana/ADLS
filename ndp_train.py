@@ -490,7 +490,7 @@ def train_kd_main(
                 if_accum_grad = ((iteration % cfg.grad_accum_iters) != 0)
 
                 train_net_time_start = time.time()
-                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_net, data, label, optimizer, criterion,
+                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,
                                                  if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
                                                  lasso_keyword_to_strength=lasso_keyword_to_strength)
                 train_net_time_end = time.time()
