@@ -55,6 +55,7 @@ if __name__ == '__main__':
         teacher_config = {}
         teacher_config['teacher_net'] = config['teacher']['name']
         teacher_config['ckpt'] = config['teacher']['path']
+        teacher_config['block_type'] = config['teacher']['block_type']
     else:
         teacher_config = None
 

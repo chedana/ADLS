@@ -5,6 +5,7 @@ model:
   num_classes: 10
 teacher:
   name: cfqkbnc_deep
+  block_type: acb
   num_classes: 10
   path: xxx
   KD: True
