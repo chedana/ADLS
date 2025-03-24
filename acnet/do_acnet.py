@@ -1,5 +1,6 @@
 import sys
 import os
+import yaml
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # Add current script directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Add parent directory
 from base_config import get_baseconfig_by_epoch
@@ -13,12 +14,26 @@ from ndp_test import general_test
 from constants import LRSchedule
 from builder import ConvBuilder
 
+
+def load_config(config_path):
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
+
+# Example usage
+config = load_config('config.yaml')
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('-config', '--config', default='None')
+    # Example usage
+    config = load_config('config.yaml')
     parser.add_argument('-a', '--arch', default='sres18')
     parser.add_argument('-b', '--block_type', default='acb')
     parser.add_argument('-c', '--conti_or_fs', default='fs')        # continue or train_from_scratch
     parser.add_argument('-e', '--epochs',default= 150)
+    parser.add_argument('-kd', '--teacher_net',default= None)
     parser.add_argument(
         '--local_rank', default=0, type=int,
         help='process rank on node')
@@ -28,6 +43,7 @@ if __name__ == '__main__':
     network_type = start_arg.arch
     block_type = start_arg.block_type
     conti_or_fs = start_arg.conti_or_fs
+    teacher_net = start_arg.teacher_net
     epochs = int(start_arg.epochs)
     assert conti_or_fs in ['continue', 'fs']
     assert block_type in ['acb', 'base']
@@ -151,8 +167,12 @@ if __name__ == '__main__':
     target_weights = os.path.join(log_dir, 'finish.hdf5')
 
     if not os.path.exists(target_weights):
-        train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
-               show_variables=True, auto_continue=auto_continue)
+        if teacher_net:
+            train_kd_main(local_rank=start_arg.local_rank,teacher_net = teacher_net, cfg=config, convbuilder=builder,
+                   show_variables=True, auto_continue=auto_continue)
+        else:
+            train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
+                   show_variables=True, auto_continue=auto_continue)
 
     if block_type == 'acb' and start_arg.local_rank == 0:
         convert_acnet_weights(target_weights, target_weights.replace('.hdf5', '_deploy.hdf5'), eps=1e-5)

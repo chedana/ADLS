@@ -1,0 +1,13 @@
+# config.yaml
+model:
+  name: cfqkbnc
+  num_classes: 10
+teacher:
+  name: cfqkbnc_deep
+  num_classes: 10
+  path: xxx
+
+training:
+  batch_size: 128
+  epochs: 50
+  learning_rate: 0.001

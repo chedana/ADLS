@@ -345,8 +345,8 @@ def train_main(local_rank,cfg:BaseConfigByEpoch, net=None, train_dataloader=None
                                                                              collected_train_loss_sum / collected_train_loss_count))
 
 def train_kd_main(
-        local_rank,
-        cfg:BaseConfigByEpoch, net=None,teacher_net = None, train_dataloader=None, val_dataloader=None, show_variables=False, convbuilder=None,
+        local_rank,teacher_net = None,
+        cfg:BaseConfigByEpoch, net=None, train_dataloader=None, val_dataloader=None, show_variables=False, convbuilder=None,
                init_hdf5=None, no_l2_keywords='depth', gradient_mask=None, use_nesterov=False, tensorflow_style_init=False,
                load_weights_keyword=None,
                keyword_to_lr_mult=None,
