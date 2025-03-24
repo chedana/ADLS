@@ -345,7 +345,7 @@ def train_main(local_rank,cfg:BaseConfigByEpoch, net=None, train_dataloader=None
                                                                              collected_train_loss_sum / collected_train_loss_count))
 
 def train_kd_main(
-        local_rank,teacher_net = None,
+        local_rank,teacher_config,
         cfg:BaseConfigByEpoch, net=None, train_dataloader=None, val_dataloader=None, show_variables=False, convbuilder=None,
                init_hdf5=None, no_l2_keywords='depth', gradient_mask=None, use_nesterov=False, tensorflow_style_init=False,
                load_weights_keyword=None,
@@ -371,8 +371,13 @@ def train_kd_main(
         if net is None:
             net_fn = get_model_fn(cfg.dataset_name, cfg.network_type)
             model = net_fn(cfg, convbuilder)
+
+
+            teacher_fn = get_model_fn(cfg.dataset_name, teacher_config['teacher_net'])
+            teacher_model = net_fn(cfg, convbuilder)
         else:
             model = net
+        import pdb;pdb.set_trace()
         model = model.cuda()
         # ----------------------------- model done ------------------------------
 
@@ -517,7 +522,7 @@ def train_kd_main(
                 pbar_dic['top1'] = '{:.5f}'.format(top1.mean)
                 pbar_dic['top5'] = '{:.5f}'.format(top5.mean)
                 pbar_dic['loss'] = '{:.5f}'.format(losses.mean)
-                
+
                 pbar.set_postfix(pbar_dic)
 
                 iteration += 1

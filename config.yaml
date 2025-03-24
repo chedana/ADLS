@@ -1,11 +1,13 @@
 # config.yaml
 model:
   name: cfqkbnc
+  block_type: base
   num_classes: 10
 teacher:
   name: cfqkbnc_deep
   num_classes: 10
   path: xxx
+  KD: True
 
 training:
   batch_size: 128

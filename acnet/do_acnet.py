@@ -7,7 +7,7 @@ from base_config import get_baseconfig_by_epoch
 from model_map import get_dataset_name_by_model_name
 import argparse
 from acnet.acnet_builder import ACNetBuilder
-from ndp_train import train_main
+from ndp_train import *
 from acnet.acnet_fusion import convert_acnet_weights
 import os
 from ndp_test import general_test
@@ -28,6 +28,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-config', '--config', default='None')
     # Example usage
+    # import pdb;pdb.set_trace()
     config = load_config('config.yaml')
 
 
@@ -46,8 +47,16 @@ if __name__ == '__main__':
     network_type = config['model']['name']
     block_type = config['model']['block_type']
     conti_or_fs = start_arg.conti_or_fs
-    teacher_net = config['teacher']['name']
-    teacher_ckpt = config['teacher']['path']
+
+     
+    
+    KD = config['teacher']['KD']
+    if KD:
+        teacher_config = {}
+        teacher_config['teacher_net'] = config['teacher']['name']
+        teacher_config['ckpt'] = config['teacher']['path']
+    else:
+        teacher_config = None
 
 
     batch_size = int(config['training']['batch_size'])
@@ -172,10 +181,12 @@ if __name__ == '__main__':
         builder = ConvBuilder(base_config=config)
 
     target_weights = os.path.join(log_dir, 'finish.hdf5')
-
+    import pdb;pdb.set_trace()
     if not os.path.exists(target_weights):
-        if teacher_net:
-            train_kd_main(local_rank=start_arg.local_rank,teacher_net = teacher_net, cfg=config, convbuilder=builder,
+        # train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
+        #     show_variables=True, auto_continue=auto_continue)
+        if KD:
+            train_kd_main(local_rank=start_arg.local_rank,teacher_config = teacher_config, cfg=config, convbuilder=builder,
                    show_variables=True, auto_continue=auto_continue)
         else:
             train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
