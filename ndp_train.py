@@ -373,13 +373,13 @@ def train_kd_main(
             model = net_fn(cfg, convbuilder)
 
 
-            teacher_fn = get_model_fn(cfg.dataset_name, teacher_config['ckpt'])
+            teacher_fn = get_model_fn(cfg.dataset_name, teacher_config['teacher_net'])
             teacher_model = teacher_fn(cfg, convbuilder)
         else:
             model = net
         import pdb;pdb.set_trace()
         model = model.cuda()
-        teacher_model.load_state_dict(torch.load("path/to/teacher_ckpt.pth"))
+        teacher_model.load_state_dict(torch.load(teacher_config['ckpt']))
         teacher_model.eval()
         teacher_model.to(device)
         # ----------------------------- model done ------------------------------
