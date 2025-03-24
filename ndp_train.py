@@ -374,7 +374,7 @@ def train_kd_main(
 
 
             teacher_fn = get_model_fn(cfg.dataset_name, teacher_config['teacher_net'])
-            teacher_model = teacher_fn(cfg, teacher_config['block_type'])
+            teacher_model = teacher_fn(cfg, teacher_config['teacher_builder'])
         else:
             model = net
         import pdb;pdb.set_trace()
