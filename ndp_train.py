@@ -379,8 +379,9 @@ def train_kd_main(
             model = net
         # import pdb;pdb.set_trace()
         model = model.cuda()
-        teacher_model.load_state_dict(torch.load(teacher_config['ckpt'])['model']).cuda()
-        teacher_model.eval()
+        teacher_model.load_state_dict(torch.load(teacher_config['ckpt'])['model'])
+        teacher_model        teacher_model.eval() = teacher_model.cuda()
+
         # ----------------------------- model done ------------------------------
 
         # ---------------------------- prepare data -------------------------
@@ -523,6 +524,8 @@ def train_kd_main(
                 pbar_dic['lr'] = scheduler.get_lr()[0]
                 pbar_dic['top1'] = '{:.5f}'.format(top1.mean)
                 pbar_dic['top5'] = '{:.5f}'.format(top5.mean)
+                bar_dic['student_loss'] = '{:.5f}'.format(student_loss.mean)
+                bar_dic['kd_loss'] = '{:.5f}'.format(kd_loss.mean)
                 pbar_dic['loss'] = '{:.5f}'.format(losses.mean)
 
                 pbar.set_postfix(pbar_dic)
