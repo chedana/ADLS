@@ -377,7 +377,7 @@ def train_kd_main(
             teacher_model = teacher_fn(cfg, convbuilder)
         else:
             model = net
-        # import pdb;pdb.set_trace()
+        import pdb;pdb.set_trace()
         model = model.cuda()
         teacher_model.load_state_dict(torch.load("path/to/teacher_ckpt.pth"))
         teacher_model.eval()
