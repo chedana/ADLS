@@ -377,11 +377,10 @@ def train_kd_main(
             teacher_model = teacher_fn(cfg, teacher_config['teacher_builder'])
         else:
             model = net
-        import pdb;pdb.set_trace()
+        # import pdb;pdb.set_trace()
         model = model.cuda()
         teacher_model.load_state_dict(torch.load(teacher_config['ckpt'])['model'])
         teacher_model.eval()
-        teacher_model.to(device)
         # ----------------------------- model done ------------------------------
 
         # ---------------------------- prepare data -------------------------
