@@ -53,12 +53,11 @@ def train_one_step(net, data, label, optimizer, criterion,
     acc, acc5 = torch_accuracy(pred, label, (1,5))
     return acc, acc5, loss
 
-def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,temperature,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
+def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     pred = net(data)
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
-    T = 4
-    kd_loss_scalar = 0.5
+    T = temperature
     kd_loss = F.kl_div(
         F.log_softmax(pred / T, dim=1),
         F.softmax(teacher_pred / T, dim=1),
@@ -375,8 +374,12 @@ def train_kd_main(
 
             teacher_fn = get_model_fn(cfg.dataset_name, teacher_config['teacher_net'])
             teacher_model = teacher_fn(cfg, teacher_config['teacher_builder'])
+            # kd_loss_scalar = teacher_config['kd_loss_scalar']
+            temperature = teacher_config['temperature']
         else:
             model = net
+        if teacher_config['kd_loss_schedular']:
+            kd_loss_scalars = [1,0.5,0]
         # import pdb;pdb.set_trace()
         model = model.cuda()
         teacher_model.load_state_dict(torch.load(teacher_config['ckpt'])['model'])
@@ -459,6 +462,15 @@ def train_kd_main(
             gradient_mask_tensor = None
 
         for epoch in range(done_epochs, cfg.max_epochs):
+            if teacher_config['kd_loss_schedular']:
+                if epoch<cfg.max_epochs//3:
+                    kd_loss_scalar = kd_loss_scalars[0]
+                elif epoch>(cfg.max_epochs//3)*2:
+                    kd_loss_scalar = kd_loss_scalars[2]
+                else:
+                    kd_loss_scalar = kd_loss_scalars[1]
+            else:
+                kd_loss_scalar = teacher_config['kd_loss_scalar']
 
             if engine.distributed and hasattr(train_data, 'train_sampler'):
                 train_data.train_sampler.set_epoch(epoch)
@@ -478,6 +490,8 @@ def train_kd_main(
             top1 = AvgMeter()
             top5 = AvgMeter()
             losses = AvgMeter()
+            student_losses = AvgMeter()
+            kd_losses = AvgMeter()
             discrip_str = 'Epoch-{}/{}'.format(epoch, cfg.max_epochs)
             pbar.set_description('Train' + discrip_str)
 
@@ -492,7 +506,7 @@ def train_kd_main(
                 if_accum_grad = ((iteration % cfg.grad_accum_iters) != 0)
 
                 train_net_time_start = time.time()
-                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,
+                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,temperature ,kd_loss_scalar,
                                                  if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
                                                  lasso_keyword_to_strength=lasso_keyword_to_strength)
                 train_net_time_end = time.time()
@@ -514,6 +528,9 @@ def train_kd_main(
                 top1.update(acc.item())
                 top5.update(acc5.item())
                 losses.update(loss.item())
+                # import pdb;pdb.set_trace()
+                student_losses.update(student_loss.item())
+                kd_losses.update(kd_loss.item())
 
                 if epoch >= cfg.max_epochs - COLLECT_TRAIN_LOSS_EPOCHS:
                     collected_train_loss_sum += loss.item()
@@ -525,9 +542,13 @@ def train_kd_main(
                 pbar_dic['lr'] = scheduler.get_lr()[0]
                 pbar_dic['top1'] = '{:.5f}'.format(top1.mean)
                 pbar_dic['top5'] = '{:.5f}'.format(top5.mean)
-                bar_dic['student_loss'] = '{:.5f}'.format(student_loss.mean)
-                bar_dic['kd_loss'] = '{:.5f}'.format(kd_loss.mean)
+                
+
+                pbar_dic['kd_loss_scalar'] = '{:.5f}'.format(kd_loss_scalar)
+                pbar_dic['student_loss'] = '{:.5f}'.format(student_losses.mean)
+                pbar_dic['kd_loss'] = '{:.5f}'.format(kd_losses.mean)
                 pbar_dic['loss'] = '{:.5f}'.format(losses.mean)
+
 
                 pbar.set_postfix(pbar_dic)
 

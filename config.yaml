@@ -7,6 +7,8 @@ teacher:
   name: cfqkbnc_deep
   block_type: acb
   num_classes: 10
+  kd_loss_scalar: 1
+  temperature: 2
   path: /content/ADLS/teacher_model/cfqkbnc_deep_acb_train/latest.pth
   KD: True
 

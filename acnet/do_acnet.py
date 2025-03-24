@@ -52,10 +52,10 @@ if __name__ == '__main__':
     
     KD = config['teacher']['KD']
     if KD:
-        teacher_config = {}
-        teacher_config['teacher_net'] = config['teacher']['name']
-        teacher_config['ckpt'] = config['teacher']['path']
-        teacher_config['block_type'] = config['teacher']['block_type']
+        teacher_config = config['teacher']
+        # teacher_config['teacher_net'] = config['teacher']['teacher_net']
+        # teacher_config['ckpt'] = config['teacher']['ckpt']
+        # teacher_config['block_type'] = config['teacher']['block_type']
     else:
         teacher_config = None
 
