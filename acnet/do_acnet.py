@@ -187,6 +187,11 @@ if __name__ == '__main__':
         # train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
         #     show_variables=True, auto_continue=auto_continue)
         if KD:
+            if teacher_config['block_type'] == 'acb':
+                teacher_builder = ACNetBuilder(base_config=config, deploy=False, gamma_init=gamma_init)
+            else:
+                teacher_builder = ConvBuilder(base_config=config)
+            teacher_config['teacher_builder'] = teacher_builder
             train_kd_main(local_rank=start_arg.local_rank,teacher_config = teacher_config, cfg=config, convbuilder=builder,
                    show_variables=True, auto_continue=auto_continue)
         else:
