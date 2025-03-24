@@ -29,22 +29,29 @@ if __name__ == '__main__':
     parser.add_argument('-config', '--config', default='None')
     # Example usage
     config = load_config('config.yaml')
-    parser.add_argument('-a', '--arch', default='sres18')
-    parser.add_argument('-b', '--block_type', default='acb')
+
+
+
+    # parser.add_argument('-a', '--arch', default='sres18')
+    # parser.add_argument('-b', '--block_type', default='acb')
     parser.add_argument('-c', '--conti_or_fs', default='fs')        # continue or train_from_scratch
-    parser.add_argument('-e', '--epochs',default= 150)
-    parser.add_argument('-kd', '--teacher_net',default= None)
+    # parser.add_argument('-e', '--epochs',default= 150)
+    # parser.add_argument('-kd', '--teacher_net',default= None)
     parser.add_argument(
         '--local_rank', default=0, type=int,
         help='process rank on node')
 
     start_arg = parser.parse_args()
 
-    network_type = start_arg.arch
-    block_type = start_arg.block_type
+    network_type = config['model']['name']
+    block_type = config['model']['block_type']
     conti_or_fs = start_arg.conti_or_fs
-    teacher_net = start_arg.teacher_net
-    epochs = int(start_arg.epochs)
+    teacher_net = config['teacher']['name']
+    teacher_ckpt = config['teacher']['path']
+
+
+    batch_size = int(config['training']['batch_size'])
+    epochs = int(config['training']['epochs'])
     assert conti_or_fs in ['continue', 'fs']
     assert block_type in ['acb', 'base']
     auto_continue = conti_or_fs == 'continue'
@@ -81,7 +88,7 @@ if __name__ == '__main__':
         #   ------------------------------------
         #   86.2  --->  86.8+
         #50 epoch 84.69  --->  85.75+
-        batch_size = 128
+        batch_size = batch_size
         lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
                          linear_final_lr=None, cosine_minimum=0)
         warmup_epochs = 0
@@ -91,7 +98,7 @@ if __name__ == '__main__':
         weight_decay_strength = 1e-4
         #   ------------------------------------
         #50 epoch 87.97  --->  88.51+
-        batch_size = 128
+        batch_size = batch_size
         lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
                          linear_final_lr=None, cosine_minimum=0)
         warmup_epochs = 0
