@@ -1,5 +1,6 @@
 import torch.nn as nn
 from builder import ConvBuilder
+import numpy as np
 LENET_ORIGIN_DEPS = np.array([32, 64], dtype=np.int32)
 
 class LeNet5BN(nn.Module):
