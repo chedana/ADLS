@@ -94,7 +94,7 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criteri
     loss = criterion(pred, label)
     # import pdb;pdb.set_trace()
     # T = temperature
-    kd_loss = criterion_kd(pred, teacher_pred)
+    kd_loss = F.mse_loss(pred, teacher_pred)
 
     # if lasso_keyword_to_strength is not None:
     #     assert len(lasso_keyword_to_strength) == 1 #TODO
@@ -108,7 +108,7 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criteri
     #                     assert param.ndimension() == 4
     #                     loss += lasso_strength * ((param ** 2).sum(dim=(1, 2, 3)).sqrt().sum())
     #                     # print('lasso on tensor ', name)
-    import pdb;pdb.set_trace()
+    # import pdb;pdb.set_trace()
     total_loss = kd_loss_scalar * kd_loss + (1-kd_loss_scalar) * loss
     total_loss.backward()
     if not if_accum_grad:
