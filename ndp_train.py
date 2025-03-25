@@ -88,7 +88,7 @@ def train_one_step(net, data, label, optimizer, criterion,
 #     acc, acc5 = torch_accuracy(pred, label, (1,5))
 #     return acc, acc5, total_loss,loss,kd_loss
 
-def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
+def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criterion_kd,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     pred = net(data)
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
@@ -437,6 +437,8 @@ def train_kd_main(
                                   no_l2_keywords=no_l2_keywords, use_nesterov=use_nesterov, keyword_to_lr_mult=keyword_to_lr_mult)
         scheduler = get_lr_scheduler(cfg, optimizer)
         criterion = get_criterion(cfg).cuda()
+        criterion_kd = get_criterion(cfg).cuda()
+
         # --------------------------------- done -------------------------------
 
         engine.register_state(
@@ -539,7 +541,7 @@ def train_kd_main(
                 if_accum_grad = ((iteration % cfg.grad_accum_iters) != 0)
 
                 train_net_time_start = time.time()
-                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,temperature ,kd_loss_scalar,
+                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,criterion_kd,temperature ,kd_loss_scalar,
                                                  if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
                                                  lasso_keyword_to_strength=lasso_keyword_to_strength)
                 train_net_time_end = time.time()
