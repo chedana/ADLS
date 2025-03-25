@@ -127,6 +127,11 @@ def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion
     import pdb;pdb.set_trace()
     teacher_pred,teacher_feature = teacher_net(data)
     pred,feature = net(data)
+
+
+    import torch.nn as nn
+    l2_loss_fn = nn.MSELoss()
+    kd_loss = l2_loss_fn(pred, teacher_pred.detach())
     loss = criterion(pred, label)
     total_loss =  kd_loss +  loss
     total_loss.backward()
