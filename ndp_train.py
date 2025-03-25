@@ -94,7 +94,7 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criteri
     loss = criterion(pred, label)
     # import pdb;pdb.set_trace()
     # T = temperature
-    kd_loss = CrossEntropyLoss(pred, teacher_pred)
+    kd_loss = criterion_kd(pred, teacher_pred)
 
     if lasso_keyword_to_strength is not None:
         assert len(lasso_keyword_to_strength) == 1 #TODO
