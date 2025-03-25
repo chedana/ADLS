@@ -26,7 +26,7 @@ TEST_BATCH_SIZE = 100
 
 def train_one_step(net, data, label, optimizer, criterion,
                    if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
-    pred = net(data)
+    pred = net(data)[0]
     loss = criterion(pred, label)
 
     if lasso_keyword_to_strength is not None:
