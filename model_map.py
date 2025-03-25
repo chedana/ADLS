@@ -1,7 +1,7 @@
 from base_model.mobilenetv1 import *
 from base_model.stagewise_resnet import *
 from base_model.vgg import *
-from base_model.lenet5 import create_lenet5bn
+from base_model.lenet5 import *
 from base_model.wrn import create_wrnc16plain
 from base_model.resnet import create_ResNet18, create_ResNet34
 from base_model.cfqk import *
@@ -30,6 +30,7 @@ CIFAR10_res_MODEL_MAP = {
 }
 MNIST_MODEL_MAP = {
     'lenet5bn': create_lenet5bn,
+    'lenet5bn_deep': create_lenet5bn_deep,
 }
 
 DATASET_TO_MODEL_MAP = {

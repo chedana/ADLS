@@ -95,6 +95,22 @@ if __name__ == '__main__':
         warmup_epochs = 0
         gamma_init = 1
 
+    elif network_type == 'lenet5bn':
+        weight_decay_strength = 1e-4
+
+        batch_size = batch_size
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
+                         linear_final_lr=None, cosine_minimum=0)
+        warmup_epochs = 0
+        gamma_init = 0.333
+    elif network_type == 'lenet5bn_deep':
+        weight_decay_strength = 1e-4
+
+        batch_size = batch_size
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
+                         linear_final_lr=None, cosine_minimum=0)
+        warmup_epochs = 0
+        gamma_init = 0.333
     elif network_type == 'cfqkbnc':
         weight_decay_strength = 1e-4
         #   ------------------------------------
