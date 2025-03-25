@@ -133,9 +133,10 @@ def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion
     import torch.nn as nn
     l2_loss_fn = nn.MSELoss()
     kd_loss = l2_loss_fn(pred, teacher_pred.detach()) * 0.1
+
+    loss = criterion(pred, label)
     total_loss = kd_loss_scalar * kd_loss + (1-kd_loss_scalar) * loss
     
-    loss = criterion(pred, label)
     total_loss.backward()
     if not if_accum_grad:
         if gradient_mask_tensor is not None:
