@@ -45,7 +45,7 @@ class LeNet5BN_deep(nn.Module):
         stem.add_module('maxpool2', builder.Maxpool2d(kernel_size=2))
         self.stem = stem
         self.flatten = builder.Flatten()
-        self.linear1 = builder.IntermediateLinear(in_features=deps[1] * 25, out_features=500)
+        self.linear1 = builder.IntermediateLinear(in_features=deps[1] * 4, out_features=500)
         self.relu1 = builder.ReLU()
         self.linear2 = builder.Linear(in_features=500, out_features=10)
 
