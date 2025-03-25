@@ -92,6 +92,7 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,tempera
     pred = net(data)
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
+    import pdb;pdb.set_trace()
     T = temperature
     # Soft label loss: student vs teacher using CE
     teacher_soft = F.softmax(teacher_pred / T, dim=1)
