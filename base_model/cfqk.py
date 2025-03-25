@@ -21,13 +21,13 @@ class CFQKBN(nn.Module):
         x = self.bd.max_pool2d(x, kernel_size=3, stride=2, padding=0)   #15
         x = self.conv2(x)
         x = self.bd.avg_pool2d(x, kernel_size=3, stride=2, padding=0)   #7
-        x = self.conv3(x)
-        x = self.bd.avg_pool2d(x, kernel_size=3, stride=2, padding=0)   #3
+        feat = self.conv3(x)
+        x = self.bd.avg_pool2d(feat, kernel_size=3, stride=2, padding=0)   #3
         x = self.bd.flatten(x)
         x = self.fc1(x)
         x = self.bd.relu(x)
         x = self.fc2(x)
-        return x
+        return x,feat
 
 class CFQKBN_deep(nn.Module):
 
