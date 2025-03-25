@@ -12,6 +12,7 @@ teacher:
   temperature: 4
   ckpt: /content/ADLS/teacher_model/cfqkbnc_deep_acb_train/latest.pth
   KD: True
+  method: feature   #[feature,logits]
 
 training:
   batch_size: 128

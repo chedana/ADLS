@@ -125,26 +125,20 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,tempera
 
 def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     pred = net(data)
-    teacher_pred = teacher_net(data)
+    # teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
     # import pdb;pdb.set_trace()
-    T = temperature
-    import pdb;pdb.set_tracce()
-    kd_loss = F.mse_loss(F.softmax(pred, dim=1),
-                       F.softmax(teacher_pred, dim=1))
-    # if lasso_keyword_to_strength is not None:
-    #     assert len(lasso_keyword_to_strength) == 1 #TODO
-    #     for lasso_key, lasso_strength in lasso_keyword_to_strength.items():
-    #         for name, param in net.named_parameters():
-    #             if lasso_key in name:
-    #                 if param.ndimension() == 1:
-    #                     loss += lasso_strength * param.abs().sum()
-    #                     # print('lasso on vec ', name)
-    #                 else:
-    #                     assert param.ndimension() == 4
-    #                     loss += lasso_strength * ((param ** 2).sum(dim=(1, 2, 3)).sqrt().sum())
-    #                     # print('lasso on tensor ', name)
+    # T = temperature
     # import pdb;pdb.set_trace()
+    # kd_loss = F.mse_loss(F.softmax(pred, dim=1),
+    #                    F.softmax(teacher_pred, dim=1))
+    # Define globally or inside your train function
+    teacher_features = {}
+
+    def teacher_hook(module, input, output):
+        teacher_features['conv6'] = output
+    import pdb;pdb.set_trace()
+    handle = teacher.conv6.register_forward_hook(teacher_hook)
     total_loss =  kd_loss +  loss
     total_loss.backward()
     if not if_accum_grad:
