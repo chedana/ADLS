@@ -53,13 +53,14 @@ class CFQKBN_deep(nn.Module):
         x = self.conv4(x)
         x = self.bd.avg_pool2d(x, kernel_size=3, stride=2, padding=0)   #7
         x = self.conv5(x)
-        x = self.conv6(x)
-        x = self.bd.avg_pool2d(x, kernel_size=3, stride=2, padding=0)   #3
+        # x = self.conv6(x)
+        feat = self.conv6(x)
+        x = self.bd.avg_pool2d(feat, kernel_size=3, stride=2, padding=0)   #3
         x = self.bd.flatten(x)
         x = self.fc1(x)
         x = self.bd.relu(x)
         x = self.fc2(x)
-        return x
+        return x,feat
 
 
 
