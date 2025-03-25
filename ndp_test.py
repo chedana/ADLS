@@ -34,7 +34,7 @@ def run_eval(val_data, max_iters, net, criterion, discrip_str, dataset_name):
             data_time = time.time() - start_time
 
             net_time_start = time.time()
-            pred = net(data)
+            pred = net(data)[0]
             net_time_end = time.time()
 
             if iter_idx >= SPEED_TEST_SAMPLE_IGNORE_RATIO * max_iters:
