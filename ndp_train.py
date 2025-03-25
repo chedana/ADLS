@@ -93,9 +93,9 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criteri
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
     # import pdb;pdb.set_trace()
-    # T = temperature
-    kd_loss = F.mse_loss(pred, teacher_pred)
-
+    T = temperature
+    kd_loss = F.mse_loss(F.softmax(pred, dim=1),
+                       F.softmax(teacher_pred, dim=1))
     # if lasso_keyword_to_strength is not None:
     #     assert len(lasso_keyword_to_strength) == 1 #TODO
     #     for lasso_key, lasso_strength in lasso_keyword_to_strength.items():
