@@ -13,7 +13,7 @@ import os
 from ndp_test import general_test
 from constants import LRSchedule
 from builder import ConvBuilder
-
+import shutil
 
 def load_config(config_path):
     with open(config_path, 'r') as file:
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     parser.add_argument('-config', '--config', default='None')
     # Example usage
     # import pdb;pdb.set_trace()
-    config = load_config('config.yaml')
 
 
 
@@ -43,6 +42,9 @@ if __name__ == '__main__':
         help='process rank on node')
 
     start_arg = parser.parse_args()
+    config_path = start_arg.config
+
+    config = load_config(config_path)
 
     network_type = config['model']['name']
     block_type = config['model']['block_type']
@@ -186,6 +188,11 @@ if __name__ == '__main__':
 
     target_weights = os.path.join(log_dir, 'finish.hdf5')
     # import pdb;pdb.set_trace()
+    if not os.path.exists(log_dir):
+        os.makedirs(path)
+        shutil.copy(config_path, path)
+    else:
+        shutil.copy(config_path, path)
     if not os.path.exists(target_weights):
         # train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
         #     show_variables=True, auto_continue=auto_continue)
