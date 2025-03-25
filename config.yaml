@@ -1,6 +1,6 @@
 # config.yaml
 model:
-  name: cfqkbnc
+  name: lenet5bn
   block_type: base
   num_classes: 10
 teacher:
@@ -11,10 +11,10 @@ teacher:
   kd_loss_schedular: True
   temperature: 4
   ckpt: /content/ADLS/teacher_model/cfqkbnc_deep_acb_train/latest.pth
-  KD: True
+  KD: False
   method: feature   #[feature,logits]
 
 training:
   batch_size: 128
-  epochs: 20
+  epochs: 50
   learning_rate: 0.001
