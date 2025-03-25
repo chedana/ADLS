@@ -1,6 +1,6 @@
 import torch.nn as nn
 from builder import ConvBuilder
-
+from constants import LENET_ORIGIN_DEPS
 
 class LeNet5BN(nn.Module):
 
