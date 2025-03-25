@@ -88,7 +88,7 @@ def train_one_step(net, data, label, optimizer, criterion,
 #     acc, acc5 = torch_accuracy(pred, label, (1,5))
 #     return acc, acc5, total_loss,loss,kd_loss
 
-def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criterion_kd,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
+def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     pred = net(data)
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
@@ -110,6 +110,42 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,criteri
     #                     # print('lasso on tensor ', name)
     # import pdb;pdb.set_trace()
     total_loss = kd_loss_scalar * kd_loss + (1-kd_loss_scalar) * loss
+    total_loss.backward()
+    if not if_accum_grad:
+        if gradient_mask_tensor is not None:
+            for name, param in net.named_parameters():
+                if name in gradient_mask_tensor:
+                    param.grad = param.grad * gradient_mask_tensor[name]
+        optimizer.step()
+        optimizer.zero_grad()
+    acc, acc5 = torch_accuracy(pred, label, (1,5))
+    return acc, acc5, total_loss,loss,kd_loss
+
+
+
+def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
+    pred = net(data)
+    teacher_pred = teacher_net(data)
+    loss = criterion(pred, label)
+    # import pdb;pdb.set_trace()
+    T = temperature
+    import pdb;pdb.set_tracce()
+    kd_loss = F.mse_loss(F.softmax(pred, dim=1),
+                       F.softmax(teacher_pred, dim=1))
+    # if lasso_keyword_to_strength is not None:
+    #     assert len(lasso_keyword_to_strength) == 1 #TODO
+    #     for lasso_key, lasso_strength in lasso_keyword_to_strength.items():
+    #         for name, param in net.named_parameters():
+    #             if lasso_key in name:
+    #                 if param.ndimension() == 1:
+    #                     loss += lasso_strength * param.abs().sum()
+    #                     # print('lasso on vec ', name)
+    #                 else:
+    #                     assert param.ndimension() == 4
+    #                     loss += lasso_strength * ((param ** 2).sum(dim=(1, 2, 3)).sqrt().sum())
+    #                     # print('lasso on tensor ', name)
+    # import pdb;pdb.set_trace()
+    total_loss =  kd_loss +  loss
     total_loss.backward()
     if not if_accum_grad:
         if gradient_mask_tensor is not None:
@@ -542,9 +578,14 @@ def train_kd_main(
                 if_accum_grad = ((iteration % cfg.grad_accum_iters) != 0)
 
                 train_net_time_start = time.time()
-                acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,criterion_kd,temperature ,kd_loss_scalar,
-                                                 if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
-                                                 lasso_keyword_to_strength=lasso_keyword_to_strength)
+                if teacher_config['method'] == 'feature':
+                    acc, acc5, loss,student_loss,kd_loss = train_one_step_kd_feature(model,teacher_model, data, label, optimizer, criterion,temperature ,kd_loss_scalar,
+                                                     if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
+                                                     lasso_keyword_to_strength=lasso_keyword_to_strength)                
+                else:
+                    acc, acc5, loss,student_loss,kd_loss = train_one_step_kd(model,teacher_model, data, label, optimizer, criterion,temperature ,kd_loss_scalar,
+                                                     if_accum_grad, gradient_mask_tensor=gradient_mask_tensor,
+                                                     lasso_keyword_to_strength=lasso_keyword_to_strength)
                 train_net_time_end = time.time()
 
                 if iteration > TRAIN_SPEED_START * max_iters and iteration < TRAIN_SPEED_END * max_iters:
