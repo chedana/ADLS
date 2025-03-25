@@ -20,6 +20,8 @@ CIFAR10_MODEL_MAP = {
     'cfqkbnc':create_CFQKBNC,
     'eca_cfqkbnc':create_eca_CFQKBNC,
     'cfqkbnc_deep':create_CFQKBNC_deep,
+    'lenet5bn': create_lenet5bn,
+    'lenet5bn_deep': create_lenet5bn_deep,
 }
 
 
@@ -28,10 +30,10 @@ CIFAR10_res_MODEL_MAP = {
     'sres34': create_ResNet34,
     'sres50': create_SResNet50,
 }
-MNIST_MODEL_MAP = {
-    'lenet5bn': create_lenet5bn,
-    'lenet5bn_deep': create_lenet5bn_deep,
-}
+# MNIST_MODEL_MAP = {
+#     'lenet5bn': create_lenet5bn,
+#     'lenet5bn_deep': create_lenet5bn_deep,
+# }
 
 DATASET_TO_MODEL_MAP = {
     'imagenet_standard': IMAGENET_STANDARD_MODEL_MAP,
