@@ -158,11 +158,15 @@ if __name__ == '__main__':
         warmup_epochs = 0
         gamma_init = 0.333
         #   --------------------------------------
-
+    import pdb;pdb.set_trace()
     else:
         raise ValueError('...')
-
-    log_dir = 'acnet_exps/{}_{}_train'.format(network_type, block_type)
+    if KD:
+        teacher_info = '_'.join(config['teacher']['teacher_net'],config['teacher']['block_type'],config['teacher']['method'])
+        log_dir = 'acnet_exps/{}_{}_epoch_{}_kd_{}'.format(network_type, block_type,epochs,teacher_info)
+        continue
+    else:
+        log_dir = 'acnet_exps/{}_{}_epoch_{}_train'.format(network_type, block_type)
 
     weight_decay_bias = weight_decay_strength
     config = get_baseconfig_by_epoch(network_type=network_type,
