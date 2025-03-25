@@ -160,9 +160,9 @@ if __name__ == '__main__':
         #   --------------------------------------
     else:
         raise ValueError('...')
-    import pdb;pdb.set_trace()
+    # import pdb;pdb.set_trace()
     if KD:
-        teacher_info = '_'.join(config['teacher']['teacher_net'],config['teacher']['block_type'],config['teacher']['method'])
+        teacher_info = '_'.join([config['teacher']['teacher_net'],config['teacher']['block_type'],config['teacher']['method']])
         log_dir = 'acnet_exps/{}_{}_epoch_{}_kd_{}'.format(network_type, block_type,epochs,teacher_info)
     else:
         log_dir = 'acnet_exps/{}_{}_epoch_{}_train'.format(network_type, block_type)
