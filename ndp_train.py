@@ -92,13 +92,9 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,tempera
     pred = net(data)
     teacher_pred = teacher_net(data)
     loss = criterion(pred, label)
-    import pdb;pdb.set_trace()
-    T = temperature
-    # Soft label loss: student vs teacher using CE
-    teacher_soft = F.softmax(teacher_pred / T, dim=1)
-    student_log_soft = F.log_softmax(teacher_pred / T, dim=1)
-    kd_loss = -(teacher_soft * student_log_soft).sum(dim=1).mean() * (T * T)
-
+    # import pdb;pdb.set_trace()
+    # T = temperature
+    kd_loss = criterion(pred, teacher_pred)
 
     if lasso_keyword_to_strength is not None:
         assert len(lasso_keyword_to_strength) == 1 #TODO
