@@ -39,11 +39,9 @@ class LeNet5BN_deep(nn.Module):
         stem = builder.Sequential()
         stem.add_module('conv1', builder.Conv2dBNReLU(in_channels=3, out_channels=deps[0], kernel_size=5))
         stem.add_module('conv2', builder.Conv2dBNReLU(in_channels=deps[0], out_channels=deps[0], kernel_size=5))
-        stem.add_module('conv3', builder.Conv2dBNReLU(in_channels=deps[0], out_channels=deps[0], kernel_size=5))
         stem.add_module('maxpool1', builder.Maxpool2d(kernel_size=2))
-        stem.add_module('conv4', builder.Conv2dBNReLU(in_channels=deps[0], out_channels=deps[1], kernel_size=5))
-        stem.add_module('conv5', builder.Conv2dBNReLU(in_channels=deps[1], out_channels=deps[1], kernel_size=5))
-        stem.add_module('conv6', builder.Conv2dBNReLU(in_channels=deps[1], out_channels=deps[1], kernel_size=5))
+        stem.add_module('conv3', builder.Conv2dBNReLU(in_channels=deps[0], out_channels=deps[1], kernel_size=5))
+        stem.add_module('conv4', builder.Conv2dBNReLU(in_channels=deps[1], out_channels=deps[1], kernel_size=5))
         stem.add_module('maxpool2', builder.Maxpool2d(kernel_size=2))
         self.stem = stem
         self.flatten = builder.Flatten()
