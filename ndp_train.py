@@ -125,20 +125,9 @@ def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,tempera
 
 def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     pred = net(data)
-    # teacher_pred = teacher_net(data)
-    loss = criterion(pred, label)
-    # import pdb;pdb.set_trace()
-    # T = temperature
-    # import pdb;pdb.set_trace()
-    # kd_loss = F.mse_loss(F.softmax(pred, dim=1),
-    #                    F.softmax(teacher_pred, dim=1))
-    # Define globally or inside your train function
-    teacher_features = {}
-
-    def teacher_hook(module, input, output):
-        teacher_features['conv6'] = output
     import pdb;pdb.set_trace()
-    handle = teacher.conv6.register_forward_hook(teacher_hook)
+    teacher_pred = teacher_net(data)
+    loss = criterion(pred, label)
     total_loss =  kd_loss +  loss
     total_loss.backward()
     if not if_accum_grad:
