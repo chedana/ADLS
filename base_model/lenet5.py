@@ -8,6 +8,7 @@ class LeNet5BN(nn.Module):
     def __init__(self, builder:ConvBuilder, deps):
         super(LeNet5BN, self).__init__()
         self.bd = builder
+        deps = LENET_ORIGIN_DEPS
         stem = builder.Sequential()
         stem.add_module('conv1', builder.Conv2dBNReLU(in_channels=1, out_channels=deps[0], kernel_size=5))
         stem.add_module('maxpool1', builder.Maxpool2d(kernel_size=2))
