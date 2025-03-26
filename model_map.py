@@ -16,6 +16,7 @@ CIFAR10_MODEL_MAP = {
     'src56':create_SRC56,
     'src110':create_SRC110,
     'vc':create_vc,
+    'vc_shallow':create_vc_shallow,
     'wrnc16plain':create_wrnc16plain,
     'cfqkbnc':create_CFQKBNC,
     'eca_cfqkbnc':create_eca_CFQKBNC,

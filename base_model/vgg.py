@@ -37,6 +37,28 @@ def _create_vgg_stem(builder, deps):
     sq.add_module('maxpool5', builder.Maxpool2d(kernel_size=2))
     return sq
 
+
+def _create_vgg_stem_shallow(builder, deps):
+    sq = builder.Sequential()
+    sq.add_module('conv1',
+                  builder.Conv2dBNReLU(in_channels=3, out_channels=deps[0], kernel_size=3, stride=1, padding=1))
+
+    sq.add_module('maxpool1', builder.Maxpool2d(kernel_size=2))
+    sq.add_module('conv3',
+                  builder.Conv2dBNReLU(in_channels=deps[0], out_channels=deps[2], kernel_size=3, stride=1, padding=1))
+    sq.add_module('maxpool2', builder.Maxpool2d(kernel_size=2))
+    sq.add_module('conv5',
+                  builder.Conv2dBNReLU(in_channels=deps[2], out_channels=deps[4], kernel_size=3, stride=1, padding=1))
+    sq.add_module('maxpool3', builder.Maxpool2d(kernel_size=2))
+    sq.add_module('conv10',
+                  builder.Conv2dBNReLU(in_channels=deps[4], out_channels=deps[9], kernel_size=3, stride=1, padding=1))
+    sq.add_module('maxpool4', builder.Maxpool2d(kernel_size=2))
+    sq.add_module('conv13',
+                  builder.Conv2dBNReLU(in_channels=deps[9], out_channels=deps[12], kernel_size=3, stride=1, padding=1))
+    sq.add_module('maxpool5', builder.Maxpool2d(kernel_size=2))
+    return sq
+
+
 class VCNet(nn.Module):
 
     def __init__(self, num_classes, builder:ConvBuilder, deps):
@@ -55,10 +77,35 @@ class VCNet(nn.Module):
         out = self.linear1(out)
         out = self.relu(out)
         out = self.linear2(out)
+        return out,
+
+class VCNet_shallow(nn.Module):
+
+    def __init__(self, num_classes, builder:ConvBuilder, deps):
+        super(VCNet_shallow, self).__init__()
+        if deps is None:
+            deps = VGG_ORIGIN_DEPS
+        self.stem = _create_vgg_stem_shallow(builder=builder, deps=deps)
+        self.flatten = builder.Flatten()
+        self.linear1 = builder.IntermediateLinear(in_features=deps[12], out_features=512)
+        self.relu = builder.ReLU()
+        self.linear2 = builder.Linear(in_features=512, out_features=num_classes)
+
+    def forward(self, x):
+        feat = self.stem(x)
+        out = self.flatten(feat)
+        out = self.linear1(out)
+        out = self.relu(out)
+        out = self.linear2(out)
         return out,feat
 
 
 def create_vc(cfg, builder):
     return VCNet(num_classes=10, builder=builder, deps=cfg.deps)
+
+
+def create_vc_shallow(cfg, builder):
+    return VCNet_shallow(num_classes=10, builder=builder, deps=cfg.deps)
+
 def create_vh(cfg, builder):
     return VCNet(num_classes=100, builder=builder, deps=cfg.deps)
