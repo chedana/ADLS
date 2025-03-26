@@ -28,6 +28,7 @@ Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this rep
 | VGG_shallow  | 90.19    | 91.12     | 90.22      |
 | Lenet        | 83.72    | 85.98     | 86.15      |
 
+All training config.yaml, training logs and ckpt can be found at [here](https://drive.google.com/drive/folders/174RHIPqfWNLO3g_DFQSpD7_yinjfGhnZ)
 
 This work is based on [DingXiaoH/ACNet](https://github.com/DingXiaoH/ACNet).  
 We sincerely thank the original authors for their excellent implementation.
