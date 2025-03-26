@@ -12,7 +12,7 @@ Quick Start:
 2. !git clone https://github.com/chedana/ADLS.git
 3. !python acnet/do_acnet.py --config config.yaml
 
-Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this repository (note that we add batch norm for Cifar-quick and VGG baselines):
+Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this repository:
 
 | Model       | Baseline | ACNet |
 |-------------|----------|-------|
