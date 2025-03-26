@@ -118,7 +118,7 @@ if __name__ == '__main__':
                          linear_final_lr=None, cosine_minimum=0)
         warmup_epochs = 0
         gamma_init = 0.333
-    elif network_type == 'mobilev1cifar_deep':
+    elif network_type == 'mobilev1cifar_shallow':
         weight_decay_strength = 1e-4
 
         batch_size = batch_size

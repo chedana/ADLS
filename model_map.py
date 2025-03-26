@@ -22,7 +22,8 @@ CIFAR10_MODEL_MAP = {
     'cfqkbnc_deep':create_CFQKBNC_deep,
     'lenet5bn': create_lenet5bn,
     'lenet5bn_deep': create_lenet5bn_deep,
-    'mobilev1cifar':create_MobileV1Cifar
+    'mobilev1cifar': create_MobileV1Cifar
+    'mobilev1cifar_shallow': MobileV1CifarNet_shallow
 }
 
 

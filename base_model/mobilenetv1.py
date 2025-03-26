@@ -19,6 +19,7 @@ class MobileV1Block(nn.Module):
 
 cifar_cfg = [16, 32, 32, 64, 64, (128,2), 128, 128, 128, 128, 128, (256,2), 256]    # 93
 
+cifar_cfg_shallow = [16, 32, 64, (128,2),128, 128, (256,2), 256]    # 93
 
 
 class MobileV1CifarNet(nn.Module):
@@ -36,6 +37,29 @@ class MobileV1CifarNet(nn.Module):
         self.stem = builder.Sequential(*blocks)
         self.gap = builder.GAP(kernel_size=8)
         self.linear = builder.Linear(cifar_cfg[-1], num_classes)
+
+    def forward(self, x):
+        out = self.conv1(x)
+        feat = self.stem(out)
+        out = self.gap(feat)
+        out = self.linear(out)
+        return out,feat
+
+class MobileV1CifarNet_shallow(nn.Module):
+
+    def __init__(self, builder:ConvBuilder, num_classes):
+        super(MobileV1CifarNet_shallow, self).__init__()
+        self.conv1 = builder.Conv2dBNReLU(in_channels=3, out_channels=16, kernel_size=3, stride=1, padding=1)
+        blocks = []
+        in_planes = cifar_cfg_shallow[0]
+        for x in cifar_cfg_shallow:
+            out_planes = x if isinstance(x, int) else x[0]
+            stride = 1 if isinstance(x, int) else x[1]
+            blocks.append(MobileV1Block(builder=builder, in_planes=in_planes, out_planes=out_planes, stride=stride))
+            in_planes = out_planes
+        self.stem = builder.Sequential(*blocks)
+        self.gap = builder.GAP(kernel_size=8)
+        self.linear = builder.Linear(cifar_cfg_shallow[-1], num_classes)
 
     def forward(self, x):
         out = self.conv1(x)
@@ -71,6 +95,8 @@ class MobileV1ImagenetNet(nn.Module):
         return out
 
 def create_MobileV1Cifar(cfg, builder):
+    return MobileV1CifarNet(builder=builder, num_classes=10)
+def MobileV1CifarNet_shallow(cfg, builder):
     return MobileV1CifarNet(builder=builder, num_classes=10)
 def create_MobileV1CH(cfg, builder):
     return MobileV1CifarNet(builder=builder, num_classes=100)
