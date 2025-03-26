@@ -14,18 +14,19 @@ Quick Start:
 
 Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this repository (note that we add batch norm for Cifar-quick and VGG baselines):
 
-| Model         | Baseline  |    ACNet   |  
-| ------------- |:-------- :| ----------:|
-| Cifar-quick   | 84.64 	|  	 85.75   |
-| VGG           | 91.7      |    92.82   |
-| Lenet 	    | 83.72     |    85.30   |
+| Model       | Baseline | ACNet |
+|-------------|----------|-------|
+| Cifar-quick | 84.64    | 85.75 |
+| VGG         | 91.70    | 92.82 |
+| Lenet       | 83.72    | 85.30 |
 
 
-| Model         | Baseline  |  KD_logits | KD_feature |  
-| ------------- |:-------- :| ----------:|-----------:|
-| Cifar-quick   | 84.64 	|   85.61    |   85.51    |    
-| VGG_shallow   | 90.19     |   91.12    |   90.22    |
-| Lenet 	    | 83.72     |   85.98    |   86.15    |
+
+| Model        | Baseline | KD_logits | KD_feature |
+|--------------|----------|-----------|------------|
+| Cifar-quick  | 84.64    | 85.61     | 85.51      |
+| VGG_shallow  | 90.19    | 91.12     | 90.22      |
+| Lenet        | 83.72    | 85.98     | 86.15      |
 
 
 This work is based on [DingXiaoH/ACNet](https://github.com/DingXiaoH/ACNet).  
