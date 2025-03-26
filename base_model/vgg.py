@@ -50,12 +50,12 @@ class VCNet(nn.Module):
         self.linear2 = builder.Linear(in_features=512, out_features=num_classes)
 
     def forward(self, x):
-        out = self.stem(x)
-        out = self.flatten(out)
+        feat = self.stem(x)
+        out = self.flatten(feat)
         out = self.linear1(out)
         out = self.relu(out)
         out = self.linear2(out)
-        return out
+        return out,feat
 
 
 def create_vc(cfg, builder):
