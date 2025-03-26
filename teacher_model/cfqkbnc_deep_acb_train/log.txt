@@ -1,0 +1,26 @@
+2025-03-24 12:52:43,257 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-24 12:52:43,276 train INFO: num of params in hdf5=366588
+2025-03-24 12:52:46,664 train INFO: val at epoch 0, top1=10.00000, top5=50.00000, loss=2.305866
+2025-03-24 12:53:19,904 train INFO: val at epoch 0, top1=53.18000, top5=93.29000, loss=1.305447
+2025-03-24 12:55:55,189 train INFO: val at epoch 5, top1=66.25000, top5=96.20000, loss=1.035953
+2025-03-24 12:58:29,157 train INFO: val at epoch 10, top1=78.67000, top5=98.21000, loss=0.657196
+2025-03-24 13:01:03,278 train INFO: val at epoch 15, top1=79.73000, top5=99.18000, loss=0.609270
+2025-03-24 13:03:37,365 train INFO: val at epoch 20, top1=85.22000, top5=99.20000, loss=0.445500
+2025-03-24 13:06:11,261 train INFO: val at epoch 25, top1=85.76000, top5=99.30000, loss=0.447305
+2025-03-24 13:08:44,979 train INFO: val at epoch 30, top1=86.38000, top5=99.49000, loss=0.442574
+2025-03-24 13:11:20,741 train INFO: val at epoch 35, top1=87.12000, top5=99.39000, loss=0.430431
+2025-03-24 13:13:54,473 train INFO: val at epoch 40, top1=88.13000, top5=99.50000, loss=0.398455
+2025-03-24 13:14:27,311 train INFO: val at epoch 41, top1=87.98000, top5=99.49000, loss=0.414183
+2025-03-24 13:15:00,470 train INFO: val at epoch 42, top1=88.26000, top5=99.53000, loss=0.412932
+2025-03-24 13:15:33,678 train INFO: val at epoch 43, top1=88.49000, top5=99.49000, loss=0.413301
+2025-03-24 13:16:06,728 train INFO: val at epoch 44, top1=88.26000, top5=99.49000, loss=0.415112
+2025-03-24 13:16:39,911 train INFO: val at epoch 45, top1=88.26000, top5=99.46000, loss=0.415459
+2025-03-24 13:17:13,139 train INFO: val at epoch 46, top1=88.31000, top5=99.46000, loss=0.417192
+2025-03-24 13:17:46,452 train INFO: val at epoch 47, top1=88.46000, top5=99.48000, loss=0.415673
+2025-03-24 13:18:19,927 train INFO: val at epoch 48, top1=88.51000, top5=99.48000, loss=0.414441
+2025-03-24 13:18:53,266 train INFO: val at epoch 49, top1=88.44000, top5=99.51000, loss=0.413169
+2025-03-24 13:18:53,267 train INFO: TRAIN speed: from 1950 to 3900 iterations, batch_size=128, examples=249472, total_net_time=23.1584, examples/sec=10772.40606422763
+2025-03-24 13:18:53,284 train INFO: num of params in hdf5=366588
+2025-03-24 13:18:53,284 train INFO: TRAIN LOSS collected over last 3 epochs: 0.111755

@@ -1,0 +1,49 @@
+2025-03-25 23:10:41,033 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-25 23:10:41,051 train INFO: num of params in hdf5=1062066
+2025-03-25 23:10:41,482 train WARNING: A exception occurred during Engine initialization, give up running process
+2025-03-25 23:12:19,276 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-25 23:12:19,292 train INFO: num of params in hdf5=390066
+2025-03-25 23:12:22,159 train INFO: val at epoch 0, top1=10.00000, top5=50.00000, loss=2.302993
+2025-03-25 23:12:47,176 train INFO: val at epoch 0, top1=53.57000, top5=93.45000, loss=1.309870
+2025-03-25 23:14:41,495 train INFO: val at epoch 5, top1=68.12000, top5=97.44000, loss=0.950323
+2025-03-25 23:15:59,567 train WARNING: A exception occurred during Engine initialization, give up running process
+2025-03-25 23:16:51,487 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-25 23:16:51,502 train INFO: num of params in hdf5=390066
+2025-03-25 23:16:51,803 train WARNING: A exception occurred during Engine initialization, give up running process
+2025-03-25 23:18:16,240 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-25 23:18:16,255 train INFO: num of params in hdf5=390066
+2025-03-25 23:18:16,553 train WARNING: A exception occurred during Engine initialization, give up running process
+2025-03-25 23:20:23,014 train INFO: 
+
+Start training with pytorch version 2.6.0+cu124
+2025-03-25 23:20:23,038 train INFO: num of params in hdf5=2310066
+2025-03-25 23:20:25,820 train INFO: val at epoch 0, top1=9.97000, top5=50.00000, loss=2.302805
+2025-03-25 23:20:51,758 train INFO: val at epoch 0, top1=58.98000, top5=94.61000, loss=1.193883
+2025-03-25 23:22:51,154 train INFO: val at epoch 5, top1=76.53000, top5=98.17000, loss=0.696471
+2025-03-25 23:24:50,268 train INFO: val at epoch 10, top1=77.70000, top5=97.98000, loss=0.708394
+2025-03-25 23:26:49,728 train INFO: val at epoch 15, top1=82.50000, top5=98.92000, loss=0.550140
+2025-03-25 23:28:49,719 train INFO: val at epoch 20, top1=84.72000, top5=99.22000, loss=0.474899
+2025-03-25 23:30:49,604 train INFO: val at epoch 25, top1=85.79000, top5=99.25000, loss=0.462965
+2025-03-25 23:32:48,952 train INFO: val at epoch 30, top1=86.62000, top5=99.37000, loss=0.446959
+2025-03-25 23:34:48,549 train INFO: val at epoch 35, top1=87.54000, top5=99.33000, loss=0.431993
+2025-03-25 23:36:48,146 train INFO: val at epoch 40, top1=88.30000, top5=99.50000, loss=0.416537
+2025-03-25 23:37:14,056 train INFO: val at epoch 41, top1=88.59000, top5=99.45000, loss=0.417551
+2025-03-25 23:37:39,929 train INFO: val at epoch 42, top1=88.54000, top5=99.45000, loss=0.416798
+2025-03-25 23:38:05,771 train INFO: val at epoch 43, top1=88.49000, top5=99.52000, loss=0.421400
+2025-03-25 23:38:31,641 train INFO: val at epoch 44, top1=88.85000, top5=99.48000, loss=0.415050
+2025-03-25 23:38:57,447 train INFO: val at epoch 45, top1=88.96000, top5=99.50000, loss=0.416061
+2025-03-25 23:39:23,248 train INFO: val at epoch 46, top1=88.90000, top5=99.55000, loss=0.413490
+2025-03-25 23:39:49,098 train INFO: val at epoch 47, top1=88.73000, top5=99.54000, loss=0.412130
+2025-03-25 23:40:15,210 train INFO: val at epoch 48, top1=88.80000, top5=99.51000, loss=0.414788
+2025-03-25 23:40:41,216 train INFO: val at epoch 49, top1=88.86000, top5=99.52000, loss=0.412551
+2025-03-25 23:40:41,217 train INFO: TRAIN speed: from 1950 to 3900 iterations, batch_size=128, examples=249472, total_net_time=18.0396, examples/sec=13829.108517305764
+2025-03-25 23:40:41,238 train INFO: num of params in hdf5=2310066
+2025-03-25 23:40:41,238 train INFO: TRAIN LOSS collected over last 3 epochs: 0.093677
