@@ -7,7 +7,7 @@ LRSchedule = namedtuple('LRSchedule', ['base_lr', 'max_epochs', 'lr_epoch_bounda
 
 VGG_ORIGIN_DEPS = [64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
 CFQK_ORIGIN_DEPS = np.array([32, 32, 64], dtype=np.int32)
-CFQK_ORIGIN_DEPS = np.array([32, 64], dtype=np.int32)
+LENET_ORIGIN_DEPS = np.array([32, 64], dtype=np.int32)
 MI1_ORIGIN_DEPS = np.array([32,
                    32, 64,
                    64, 128,

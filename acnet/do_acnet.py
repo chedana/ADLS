@@ -109,6 +109,21 @@ if __name__ == '__main__':
         batch_size = batch_size
         lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
                          linear_final_lr=None, cosine_minimum=0)
+
+    elif network_type == 'mobilev1cifar':
+        weight_decay_strength = 1e-4
+
+        batch_size = batch_size
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
+                         linear_final_lr=None, cosine_minimum=0)
+        warmup_epochs = 0
+        gamma_init = 0.333
+    elif network_type == 'mobilev1cifar_deep':
+        weight_decay_strength = 1e-4
+
+        batch_size = batch_size
+        lrs = LRSchedule(base_lr=0.1, max_epochs=epochs, lr_epoch_boundaries=None, lr_decay_factor=None,
+                         linear_final_lr=None, cosine_minimum=0)
         warmup_epochs = 0
         gamma_init = 0.333
     elif network_type == 'cfqkbnc':
@@ -212,8 +227,6 @@ if __name__ == '__main__':
     else:
         shutil.copy(config_path, log_dir)
     if not os.path.exists(target_weights):
-        # train_main(local_rank=start_arg.local_rank, cfg=config, convbuilder=builder,
-        #     show_variables=True, auto_continue=auto_continue)
         if KD:
             if teacher_config['block_type'] == 'acb':
                 teacher_builder = ACNetBuilder(base_config=config, deploy=False, gamma_init=gamma_init)

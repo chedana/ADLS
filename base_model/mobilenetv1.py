@@ -39,10 +39,10 @@ class MobileV1CifarNet(nn.Module):
 
     def forward(self, x):
         out = self.conv1(x)
-        out = self.stem(out)
-        out = self.gap(out)
+        feat = self.stem(out)
+        out = self.gap(feat)
         out = self.linear(out)
-        return out
+        return out,feat
 
 class MobileV1ImagenetNet(nn.Module):
 
