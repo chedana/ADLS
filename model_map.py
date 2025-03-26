@@ -23,7 +23,7 @@ CIFAR10_MODEL_MAP = {
     'lenet5bn': create_lenet5bn,
     'lenet5bn_deep': create_lenet5bn_deep,
     'mobilev1cifar': create_MobileV1Cifar,
-    'mobilev1cifar_shallow': MobileV1CifarNet_shallow
+    'mobilev1cifar_shallow': create_MobileV1Cifar_shallow
 }
 
 

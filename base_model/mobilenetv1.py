@@ -96,7 +96,7 @@ class MobileV1ImagenetNet(nn.Module):
 
 def create_MobileV1Cifar(cfg, builder):
     return MobileV1CifarNet(builder=builder, num_classes=10)
-def MobileV1CifarNet_shallow(cfg, builder):
+def create_MobileV1Cifar_shallow(cfg, builder):
     return MobileV1CifarNet_shallow(builder=builder, num_classes=10)
 def create_MobileV1CH(cfg, builder):
     return MobileV1CifarNet(builder=builder, num_classes=100)
