@@ -77,7 +77,7 @@ class VCNet(nn.Module):
         out = self.linear1(out)
         out = self.relu(out)
         out = self.linear2(out)
-        return out,
+        return out,feat
 
 class VCNet_shallow(nn.Module):
 
