@@ -1,8 +1,9 @@
 # config.yaml
 model:
-  name: lenet5bn
+  name: cfqkbnc
   block_type: base
   num_classes: 10
+  ckpt: /content/ADLS/2025-03-27/cfqkbnc_base_kd_cfqkbnc_deep_acb_feature
 teacher:
   teacher_net: cfqkbnc_deep
   block_type: acb
@@ -11,8 +12,8 @@ teacher:
   kd_loss_schedular: True
   temperature: 4
   ckpt: /content/ADLS/teacher_model/cfqkbnc_deep_acb_train/latest.pth
-  KD: False
-  method: feature   #[feature,logits]
+  KD: True
+  method: logits   #[feature,logits]
 
 training:
   batch_size: 128
