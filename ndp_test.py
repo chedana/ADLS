@@ -107,6 +107,7 @@ def ding_test(cfg:BaseConfigByEpoch, net=None, val_dataloader=None, show_variabl
             val_data = create_dataset(cfg.dataset_name, cfg.dataset_subset,
                                       global_batch_size=cfg.global_batch_size, distributed=False)
         num_examples = num_val_examples(cfg.dataset_name)
+        import pdb;pdb.set_trace()
         assert num_examples % cfg.global_batch_size == 0
         val_iters = num_val_examples(cfg.dataset_name) // cfg.global_batch_size
         print('batchsize={}, {} iters'.format(cfg.global_batch_size, val_iters))

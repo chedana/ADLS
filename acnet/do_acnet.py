@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # parser.add_argument('-a', '--arch', default='sres18')
     # parser.add_argument('-b', '--block_type', default='acb')
     parser.add_argument('-c', '--conti_or_fs', default='fs')        # continue or train_from_scratch
-    # parser.add_argument('-e', '--epochs',default= 150)
+    parser.add_argument('-e', '--eval',default= False)
     # parser.add_argument('-kd', '--teacher_net',default= None)
     parser.add_argument(
         '--local_rank', default=0, type=int,
@@ -48,9 +48,10 @@ if __name__ == '__main__':
 
     network_type = config['model']['name']
     block_type = config['model']['block_type']
-    conti_or_fs = start_arg.conti_or_fs
-
-     
+    conti_or_fs =start_arg .conti_or_fs
+    eval_mode = start_arg.eval
+    if eval_mode:
+        ckpt_path = config['model']['ckpt']
     
     KD = config['teacher']['KD']
     if KD:
@@ -228,8 +229,10 @@ if __name__ == '__main__':
         builder = ACNetBuilder(base_config=config, deploy=False, gamma_init=gamma_init)
     else:
         builder = ConvBuilder(base_config=config)
-
-    target_weights = os.path.join(log_dir, 'finish.hdf5')
+    if eval_mode:
+        target_weights = os.path.join(ckpt_path, 'finish.hdf5')
+    else:
+        target_weights = os.path.join(log_dir, 'finish.hdf5')
     # import pdb;pdb.set_trace()
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
@@ -253,4 +256,9 @@ if __name__ == '__main__':
         convert_acnet_weights(target_weights, target_weights.replace('.hdf5', '_deploy.hdf5'), eps=1e-5)
         deploy_builder = ACNetBuilder(base_config=config, deploy=True)
         general_test(network_type=network_type, weights=target_weights.replace('.hdf5', '_deploy.hdf5'),
+                 builder=deploy_builder)
+    else:
+        # convert_acnet_weights(target_weights, target_weights.replace('.hdf5', '_deploy.hdf5'), eps=1e-5)
+        deploy_builder = ConvBuilder(base_config=config)
+        general_test(network_type=network_type, weights=target_weights,
                  builder=deploy_builder)
