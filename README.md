@@ -10,7 +10,8 @@ This demo will show you how to
 Quick Start:
 1. We use colab, single card with L4 GPU 
 2. !git clone https://github.com/chedana/ADLS.git
-3. !python acnet/do_acnet.py --config config.yaml
+3. Train: !python acnet/do_acnet.py --config config.yaml
+4. Test:  !python acnet/do_acnet.py --config config.yaml -e True
 
 Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this repository:
 
