@@ -13,6 +13,7 @@ Quick Start:
 3. !pip install  coloredlogs
 4. Train: !python acnet/do_acnet.py --config config.yaml
 5. Test : !python acnet/do_acnet.py --config config.yaml -e True
+
 Some results (Top-1 accuracy) reproduced on CIFAR-10 using the codes in this repository:
 
 | Model       | Baseline | ACNet |
