@@ -79,7 +79,7 @@ def create_dataset(dataset_name, subset, global_batch_size, distributed):
                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
                                 batch_size=global_batch_size, shuffle=True)
         else:
-            return InfiniteDataLoader(datasets.CIFAR10(CIFAR10_PATH, train=False,
+            return InfiniteDataLoader(datasets.CIFAR10(CIFAR10_PATH, train=False,download=True,
                                 transform=transforms.Compose([
                                     transforms.ToTensor(),
                                     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),
