@@ -52,41 +52,6 @@ def train_one_step(net, data, label, optimizer, criterion,
         optimizer.zero_grad()
     acc, acc5 = torch_accuracy(pred, label, (1,5))
     return acc, acc5, loss
-
-# def train_one_step_kd(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
-#     pred = net(data)
-#     teacher_pred = teacher_net(data)
-#     loss = criterion(pred, label)
-#     T = temperature
-#     kd_loss = F.kl_div(
-#         F.log_softmax(pred / T, dim=1),
-#         F.softmax(teacher_pred / T, dim=1),
-#         reduction="batchmean"
-#     ) * (T * T)
-
-#     if lasso_keyword_to_strength is not None:
-#         assert len(lasso_keyword_to_strength) == 1 #TODO
-#         for lasso_key, lasso_strength in lasso_keyword_to_strength.items():
-#             for name, param in net.named_parameters():
-#                 if lasso_key in name:
-#                     if param.ndimension() == 1:
-#                         loss += lasso_strength * param.abs().sum()
-#                         # print('lasso on vec ', name)
-#                     else:
-#                         assert param.ndimension() == 4
-#                         loss += lasso_strength * ((param ** 2).sum(dim=(1, 2, 3)).sqrt().sum())
-#                         # print('lasso on tensor ', name)
-#     total_loss = kd_loss_scalar * kd_loss + (1-kd_loss_scalar) * loss
-#     total_loss.backward()
-#     if not if_accum_grad:
-#         if gradient_mask_tensor is not None:
-#             for name, param in net.named_parameters():
-#                 if name in gradient_mask_tensor:
-#                     param.grad = param.grad * gradient_mask_tensor[name]
-#         optimizer.step()
-#         optimizer.zero_grad()
-#     acc, acc5 = torch_accuracy(pred, label, (1,5))
-#     return acc, acc5, total_loss,loss,kd_loss
 def train_one_step_kd_prediction(net,teacher_net, data, label, optimizer, criterion,temperature = 4,kd_loss_scalar = 0.5,if_accum_grad = False, gradient_mask_tensor = None, lasso_keyword_to_strength=None):
     # import pdb;pdb.set_trace()
     teacher_pred,teacher_feature = teacher_net(data)
@@ -119,7 +84,7 @@ def train_one_step_kd_feature(net,teacher_net, data, label, optimizer, criterion
 
     import torch.nn as nn
     l2_loss_fn = nn.MSELoss()
-    kd_loss = l2_loss_fn(feature, teacher_feature.detach()) * 0.1
+    kd_loss = l2_loss_fn(feature, teacher_feature.detach()) * 10
 
     loss = criterion(pred, label)
     total_loss = kd_loss_scalar * kd_loss + (1-kd_loss_scalar) * loss
