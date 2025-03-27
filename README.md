@@ -1,4 +1,4 @@
-# ADLS Group-project
+# ACDistill(ACB and Distillation)
 
 This demo will show you how to
 1. Build an ACNet using Asymmetric Convolution Blocks
